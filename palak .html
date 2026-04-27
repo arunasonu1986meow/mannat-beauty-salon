@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mannat Beauty Zone</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+body{background:#fff}
+
+/* NAV */
+header{background:#000;color:#fff;padding:15px}
+nav{display:flex;justify-content:space-between}
+nav h1{color:#f4c10f}
+
+/* HERO */
+.hero{
+height:90vh;
+background:url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9') no-repeat center/cover;
+display:flex;justify-content:center;align-items:center;color:white;text-align:center
+}
+.hero h2{font-size:50px}
+
+/* SECTION */
+section{padding:40px;text-align:center}
+
+/* CARD */
+.card{
+background:#f4f4f4;padding:20px;margin:10px;border-radius:10px;
+display:inline-block;width:220px
+}
+
+/* INPUT */
+input,select{padding:10px;margin:10px;width:80%}
+
+/* BUTTON */
+button{padding:10px 20px;background:black;color:white;border:none;cursor:pointer}
+
+/* REVIEW */
+.review{background:#eee;padding:10px;margin:10px;border-radius:8px}
+
+/* WHATSAPP */
+.whatsapp{
+position:fixed;bottom:20px;right:20px;
+background:green;color:white;padding:15px;border-radius:50%;cursor:pointer
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+<h1>Mannat Beauty Zone</h1>
+</nav>
+</header>
+
+<section class="hero">
+<div>
+<h2>Glow Like Never Before</h2>
+<button onclick="scrollToBooking()">Book Now</button>
+</div>
+</section>
+
+<section>
+<h2>Services</h2>
+<div class="card">Hair Cut</div>
+<div class="card">Facial</div>
+<div class="card">Makeup</div>
+<div class="card">Hair Spa</div>
+</section>
+
+<section id="booking">
+<h2>Book Appointment</h2>
+<input id="name" placeholder="Name"><br>
+<input id="phone" placeholder="Phone"><br>
+
+<select id="service">
+<option>Hair Cut</option>
+<option>Facial</option>
+<option>Makeup</option>
+</select><br>
+
+<input type="date" id="date"><br>
+<input type="time" id="time"><br>
+
+<button onclick="book()">Confirm Booking</button>
+<p id="msg"></p>
+</section>
+
+<section>
+<h2>Give Review ⭐</h2>
+
+<input id="rname" placeholder="Name"><br>
+<input id="rtext" placeholder="Review"><br>
+
+<select id="rating">
+<option value="5">⭐⭐⭐⭐⭐</option>
+<option value="4">⭐⭐⭐⭐</option>
+<option value="3">⭐⭐⭐</option>
+<option value="2">⭐⭐</option>
+<option value="1">⭐</option>
+</select><br>
+
+<button onclick="addReview()">Submit</button>
+
+<div id="reviews"></div>
+</section>
+
+<section>
+<h2>Contact</h2>
+<p>Owner: Aruna Sharma</p>
+<p>Phone: 9971349738 / 9910533827</p>
+<p>Address: Dwarka Sector 8, Bagdola Village, Prajapati Mohalla Block D</p>
+</section>
+
+<section>
+<h2>Location</h2>
+<iframe 
+src="https://maps.google.com/maps?q=dwarka%20sector%208&t=&z=13&ie=UTF8&iwloc=&output=embed"
+width="90%" height="300"></iframe>
+</section>
+
+<div class="whatsapp" onclick="whatsapp()">💬</div>
+
+<script>
+
+function scrollToBooking(){
+document.getElementById("booking").scrollIntoView({behavior:"smooth"});
+}
+
+/* BOOKING SAVE */
+function book(){
+let name=document.getElementById("name").value;
+let phone=document.getElementById("phone").value;
+
+if(name==""||phone==""){
+document.getElementById("msg").innerText="Fill details!";
+return;
+}
+
+/* SAVE IN LOCAL STORAGE */
+let bookings=JSON.parse(localStorage.getItem("bookings"))||[];
+bookings.push({name,phone});
+localStorage.setItem("bookings",JSON.stringify(bookings));
+
+document.getElementById("msg").innerText="Booking Saved ✅";
+}
+
+/* REVIEW */
+function addReview(){
+let name=document.getElementById("rname").value;
+let text=document.getElementById("rtext").value;
+let rating=document.getElementById("rating").value;
+
+let stars="⭐".repeat(rating);
+
+let div=document.createElement("div");
+div.className="review";
+div.innerHTML="<b>"+name+"</b><br>"+stars+"<p>"+text+"</p>";
+
+document.getElementById("reviews").appendChild(div);
+}
+
+/* WHATSAPP */
+function whatsapp(){
+let phone="919971349738";
+let msg="Hello, I want to book appointment at Mannat Beauty Zone";
+window.open(`https://wa.me/${phone}?text=${msg}`);
+}
+
+</script>
+
+</body>
+</html>
